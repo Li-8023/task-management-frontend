@@ -23,6 +23,7 @@ const Sidebar = () => {
     console.log("user logged out");
   }
 
+  
   return (
     <div className=" card min-h-[87vh] flex flex-col justify-center fixed w-[20vw]">
       <div className="space-y-4 h-full">
