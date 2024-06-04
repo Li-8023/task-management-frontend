@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import UserList from "../UserList";
-import SubmissionList from "../SubmissionList";
-import EditTaskForm from "../EditTaskCard";
+import UserList from "../../TaskList/UserList";
+import SubmissionList from "../../TaskList/SubmissionList";
+import EditTaskForm from "../../TaskList/EditTaskCard";
 
 const role="ROLE_ADMIN";
 
