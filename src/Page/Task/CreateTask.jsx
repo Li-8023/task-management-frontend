@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useState } from "react";
-import { Autocomplete, Grid, TextField } from "@mui/material";
+import { Autocomplete, Button, Grid, TextField } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -38,6 +38,35 @@ export default function CreateNewTaskForm({ handleClose, open }) {
     const handleTagsChange = (event, value) => {
         setSelectedTags(value);
     };
+
+    const handleDeadlineChange = (date) => {
+        setFormData({...formData, deadline:date});
+    };
+
+    const formatDate=(input) => {
+        let {
+            $y:year,
+            $M: month,
+            $D: day,
+            $H: hours,
+            $m: minutes,
+            $s: seconds,
+            $ms: milliseconds
+        } = input;
+        const date = new Date(year, month, day, hours, minutes, seconds, milliseconds);
+
+        const formatedDate = date.toISOString();
+        return formatedDate;
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const {deadline} = formData;
+        formData.deadline = formatDate(deadline);
+        formData.tag = selectedTags;
+        console.log("formData", formData);
+        handleClose();
+    }
   return (
     <div>
       <Modal
@@ -47,7 +76,7 @@ export default function CreateNewTaskForm({ handleClose, open }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <form>
+          <form onSubmit={handleSubmit}>
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={12}>
                 <TextField
@@ -92,9 +121,18 @@ export default function CreateNewTaskForm({ handleClose, open }) {
               </Grid>
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateTimePicker label="Deadline" className="w-full"/>
+                  <DateTimePicker
+                    onChange={handleDeadlineChange}
+                    label="Deadline"
+                    className="w-full"
+                    renderInput={(params) => <TextField {...params} />}
+                  />
                 </LocalizationProvider>
-                
+              </Grid>
+              <Grid item xs={12}>
+                <Button fullWidth sx={{padding: ".9rem"}} className="customButton" type="submit">
+                    Create 
+                </Button>
               </Grid>
             </Grid>
           </form>
