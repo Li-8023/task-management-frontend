@@ -5,6 +5,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import UserList from "../UserList";
 import SubmissionList from "../SubmissionList";
+import EditTaskForm from "../EditTaskCard";
 
 const role="ROLE_ADMIN";
 
@@ -39,12 +40,20 @@ function TaskCard(){
   const handleCloseSubmissionList = () => {
     setOpenSubmissionList(false);
   };
-  const handleOpenUpdateTaskModel = () => {
 
+  const [openTaskEditForm, setOpenTaskEditForm] = useState(false);
+
+  const handleOpenUpdateTaskModel = () => {
+    setOpenTaskEditForm(true);
+    handleMenuClose();
+  };
+
+  const handleCloseUpdateTaskModel = () => {
+    setOpenTaskEditForm(false);
   };
 
   const handleDeleteTask = () => {
-    
+    handleMenuClose();
   };
 
   return (
@@ -112,7 +121,16 @@ function TaskCard(){
         <UserList open={openUserList} handleClose={handleCloseUserList} />
       )}
       {openSubmissionList && (
-        <SubmissionList open={openSubmissionList} handleClose={handleCloseSubmissionList} />
+        <SubmissionList
+          open={openSubmissionList}
+          handleClose={handleCloseSubmissionList}
+        />
+      )}
+      {openTaskEditForm && (
+        <EditTaskForm
+          open={openTaskEditForm}
+          handleClose={handleCloseUpdateTaskModel}
+        />
       )}
     </div>
   );

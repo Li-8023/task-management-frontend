@@ -30,6 +30,10 @@ code {
   border: solid 2px #c24dd0;
   padding: 0.5rem 2rem;
 }
+.customButton {
+  background-image: linear-gradient(150deg, #c24dd0, #7a72fa);
+  color: white !important;
+}
 
 @tailwind base;
 @tailwind components;
