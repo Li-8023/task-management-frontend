@@ -12,7 +12,7 @@ export const fetchTasks = createAsyncThunk("task/fetchTasks",
             console.log("fetch tasks: ", data);
             return data;
         }catch(error){
-            console.log("Failed to fetch tasks", error);
+            console.log("error ", error);
             throw Error(error.response.data.error)
         }
     }
@@ -31,7 +31,7 @@ export const fetchUsersTasks = createAsyncThunk(
       console.log("fetch users tasks: ", data);
       return data;
     } catch (error) {
-      console.log("Failed to fetch tasks", error);
+      console.log("error ", error);
       throw Error(error.response.data.error);
     }
   }
@@ -47,7 +47,7 @@ export const fetchTasksById = createAsyncThunk(
       console.log("fetch tasks by id: ", data);
       return data;
     } catch (error) {
-      console.log("Failed to fetch tasks", error);
+      console.log("error ", error);
       throw Error(error.response.data.error);
     }
   }
@@ -64,7 +64,7 @@ export const createTask = createAsyncThunk("task/createTask", async ({ taskData 
     console.log("created task: ", data);
     return data;
   } catch (error) {
-    console.log("Failed to fetch tasks", error);
+    console.log("error ", error);
     throw Error(error.response.data.error);
   }
 });
@@ -80,7 +80,7 @@ export const updateTask = createAsyncThunk("task/updateTask", async ({ id, updat
     console.log("updated task: ", data);
     return data;
   } catch (error) {
-    console.log("Failed to fetch tasks", error);
+    console.log("error ", error);
     throw Error(error.response.data.error);
   }
 });
@@ -97,7 +97,7 @@ export const assignTaskToUser = createAsyncThunk(
       console.log("assigned task: ", data);
       return data;
     } catch (error) {
-      console.log("Failed to fetch tasks", error);
+      console.log("error ", error);
       throw Error(error.response.data.error);
     }
   }
@@ -114,7 +114,7 @@ export const deleteTask = createAsyncThunk(
       return taskId;
 
     } catch (error) {
-      console.log("Failed to fetch tasks", error);
+      console.log("error ", error);
       throw Error(error.response.data.error);
     }
   }
