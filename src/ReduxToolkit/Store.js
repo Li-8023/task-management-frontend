@@ -1,11 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { thunk } from "redux-thunk";
 import authReducer from "./AuthSlice";
+import taskReducer from "./TaskSlice";
 
 
 //reducer 的作用是管理应用状态的变化。它是一个纯函数，负责根据当前状态和接收到的 action 生成并返回新的状态
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  task: taskReducer,
 });
 
 //配置redux store
