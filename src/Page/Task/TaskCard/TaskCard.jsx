@@ -9,7 +9,7 @@ import EditTaskForm from "../../TaskList/EditTaskCard";
 
 const role="ROLE_ADMIN";
 
-function TaskCard(){
+function TaskCard({item}){
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openMenu = Boolean(anchorEl);
   const handleMenuClick = (event) => {
@@ -63,21 +63,21 @@ function TaskCard(){
           <div className="">
             <img
               className="lg:w-[7rem] lg:h=[7rem] object-cover"
-              src="https://cdn.pixabay.com/photo/2022/05/25/21/28/burger-7221436_1280.jpg"
+              src={item.image}
               alt="task image"
             ></img>
           </div>
           <div className="space-y-5">
             <div className="space-y-2">
-              <h1 className="font-bold text-lg">Burger Ordering Website</h1>
+              <h1 className="font-bold text-lg">{item.title}</h1>
               <p className="text-gray-500 text-sm">
-                Use latest frameworks adn technologies to develop this website
+                {item.description}
               </p>
             </div>
             <div className="flex flex-wrap gap-2 items-center text-sm">
-              {[1, 1, 1, 1].map((item) => (
+              {item.tags.map((item) => (
                 <span className="py-1 px-5 rounded-full techStack">
-                  Angular
+                  {item}
                 </span>
               ))}
             </div>

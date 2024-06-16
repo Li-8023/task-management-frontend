@@ -77,7 +77,7 @@ const submissionSlice = createSlice({
         status: '',
         error: null,
     },
-    reducers:[],
+    reducers:{},
     extraReducers: (builder) => {
         builder
           .addCase(submitTask.pending, (state) => {
@@ -87,7 +87,7 @@ const submissionSlice = createSlice({
             state.status = "succeeded";
             state.submissions.push(action.payload);
           })
-          .addCase(submitTask.failed, (state, action) => {
+          .addCase(submitTask.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
           })
@@ -96,7 +96,7 @@ const submissionSlice = createSlice({
             state.status = "succeeded";
             state.submissions = action.payload;
           })
-          .addCase(fetchAllSubmission.failed, (state, action) => {
+          .addCase(fetchAllSubmission.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message;
           })

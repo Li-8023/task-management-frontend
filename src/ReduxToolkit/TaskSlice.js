@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api, setAuthHeader } from "../api/api"
 
 export const fetchTasks = createAsyncThunk("task/fetchTasks", 
@@ -6,8 +6,8 @@ export const fetchTasks = createAsyncThunk("task/fetchTasks",
         setAuthHeader(localStorage.getItem("jwt"), api)
 
         try{
-            const {data} = await api.get("/api/tasks", {
-                params: {status}
+            const { data } = await api.get("/api/tasks/getAllTask", {
+              params: { status },
             });
             console.log("fetch tasks: ", data);
             return data;
@@ -25,7 +25,7 @@ export const fetchUsersTasks = createAsyncThunk(
     setAuthHeader(localStorage.getItem("jwt"), api);
 
     try {
-      const { data } = await api.get("/api/tasks/user", {
+      const { data } = await api.get("/api/tasks/getAssignedUserTask", {
         params: { status },
       });
       console.log("fetch users tasks: ", data);
@@ -130,8 +130,7 @@ const taskSlice = createSlice({
         taskDetails: null,
         usersTask:[]
     },
-
-    reducer:{},
+    reducers:{},
     extraReducers:(builder) => {
         builder
           .addCase(fetchTasks.pending, (state) => {

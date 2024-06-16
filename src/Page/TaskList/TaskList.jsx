@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TaskCard from "../Task/TaskCard/TaskCard";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks, fetchUsersTasks } from "../../ReduxToolkit/TaskSlice";
+import { useLocation } from "react-router-dom";
 
 const TaskList = () => {
+
+  const dispatch = useDispatch();
+  const {auth, task} = useSelector(store=>store);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const filterValue = queryParams.get("filter");
+
+
+  useEffect(() => {
+    if(auth.user?.role === "ROLE_ADMIN"){
+      dispatch(fetchTasks({ status: filterValue }));
+    }else{
+      dispatch(fetchUsersTasks({ status: filterValue }));
+    }
+    
+  },[filterValue])
+
+  console.log("task:", task);
+
   return (
     <div className="space-y-5 w-[67vw]">
       <div className="space-y-3">
-        {[1, 1, 1, 1].map((item) => (
-          <TaskCard />
+        {task.tasks.map((item) => (
+          <TaskCard item={item}/>
         ))}
       </div>
     </div>
