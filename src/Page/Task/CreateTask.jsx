@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Autocomplete, Button, Grid, TextField } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useDispatch } from "react-redux";
+import { createTask } from "../../ReduxToolkit/TaskSlice";
 
 const style = {
   position: "absolute",
@@ -12,7 +14,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-    outline: "none",
+  outline: "none",
   boxShadow: 24,
   p: 4,
 };
@@ -20,53 +22,62 @@ const style = {
 const tags = ["Angular", "React", "Vue", "Spring boot", "Node js", "Python"];
 
 export default function CreateNewTaskForm({ handleClose, open }) {
+  const dispatch = useDispatch();
 
-    const [formData, setFormData] = useState({
-        title:"",
-        image:"",
-        description:"",
-        tag:[],
-        deadline: new Date(),
-    });
+  const [formData, setFormData] = useState({
+    title: "",
+    image: "",
+    description: "",
+    tags: [],
+    deadline: new Date(),
+  });
 
-    const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
 
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData({...formData, [name]:value,});
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  const handleTagsChange = (event, value) => {
+    setSelectedTags(value);
+  };
+
+  const handleDeadlineChange = (date) => {
+    setFormData({ ...formData, deadline: date });
+  };
+
+  // const formatDate=(input) => {
+  //     let {
+  //         $y:year,
+  //         $M: month,
+  //         $D: day,
+  //         $H: hours,
+  //         $m: minutes,
+  //         $s: seconds,
+  //         $ms: milliseconds
+  //     } = input;
+  //     const date = new Date(year, month, day, hours, minutes, seconds, milliseconds);
+
+  //     const formatedDate = date.toISOString();
+  //     return formatedDate;
+  // }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formattedDeadline = formData.deadline.toISOString();
+    const dataToSubmit = {
+      ...formData,
+      deadline: formattedDeadline,
+      tags: selectedTags,
     };
-    const handleTagsChange = (event, value) => {
-        setSelectedTags(value);
-    };
 
-    const handleDeadlineChange = (date) => {
-        setFormData({...formData, deadline:date});
-    };
-
-    const formatDate=(input) => {
-        let {
-            $y:year,
-            $M: month,
-            $D: day,
-            $H: hours,
-            $m: minutes,
-            $s: seconds,
-            $ms: milliseconds
-        } = input;
-        const date = new Date(year, month, day, hours, minutes, seconds, milliseconds);
-
-        const formatedDate = date.toISOString();
-        return formatedDate;
+    try {
+      await dispatch(createTask({ taskData: dataToSubmit })).unwrap();
+      console.log("Task created successfully");
+      handleClose();
+    } catch (error) {
+      console.error("Failed to create task:", error);
     }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const {deadline} = formData;
-        formData.deadline = formatDate(deadline);
-        formData.tag = selectedTags;
-        console.log("formData", formData);
-        handleClose();
-    }
+  };
   return (
     <div>
       <Modal
@@ -130,8 +141,13 @@ export default function CreateNewTaskForm({ handleClose, open }) {
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
-                <Button fullWidth sx={{padding: ".9rem"}} className="customButton" type="submit">
-                    Create 
+                <Button
+                  fullWidth
+                  sx={{ padding: ".9rem" }}
+                  className="customButton"
+                  type="submit"
+                >
+                  Create
                 </Button>
               </Grid>
             </Grid>

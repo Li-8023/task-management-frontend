@@ -57,12 +57,9 @@ export const createTask = createAsyncThunk("task/createTask", async ({ taskData 
   setAuthHeader(localStorage.getItem("jwt"), api);
 
   try {
-    const { data } = await api.post(
-      `/api/tasks/createTask`,
-      taskData
-    );
-    console.log("created task: ", data);
-    return data;
+    const response = await api.post("/api/tasks/createTask", taskData);
+    console.log("created task: ", response.data);
+    return response.data;
   } catch (error) {
     console.log("error ", error);
     throw Error(error.response.data.error);
