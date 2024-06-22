@@ -4,6 +4,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Avatar, Divider, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserList } from "../../ReduxToolkit/AuthSlice";
 
 const style = {
   position: "absolute",
@@ -21,6 +23,13 @@ const tasks = [1, 1, 1, 1];
 
 export default function UserList({handleClose, open}) {
 
+  const dispatch = useDispatch();
+  const {auth} = useSelector(store=>store);
+
+  React.useEffect(()=>{
+    dispatch(getUserList(localStorage.getItem("jwt")))
+  },[])
+
   return (
     <div>
       <Modal
@@ -30,7 +39,7 @@ export default function UserList({handleClose, open}) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {tasks.map((item, index) => (
+          {auth.users.map((item, index) => (
             <>
               <div className="flex items-center justify-between w-full">
                 <div>
@@ -39,8 +48,8 @@ export default function UserList({handleClose, open}) {
                       <Avatar src="https://cdn.pixabay.com/photo/2021/11/12/03/04/woman-6787784_1280.png" />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={"Code With Li"}
-                      secondary="@code_with_li"
+                      primary={item.fullName}
+                      secondary={`@${item.fullName.split(" ").join("_").toLowerCase()}`}
                     ></ListItemText>
                   </ListItem>
                 </div>

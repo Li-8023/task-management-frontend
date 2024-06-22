@@ -102,14 +102,13 @@ export const assignTaskToUser = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
   "task/deleteTask",
-  async ({ taskId}) => {
+  async ({ taskId }) => {
     setAuthHeader(localStorage.getItem("jwt"), api);
 
     try {
       const { data } = await api.delete(`/api/tasks/deleteTask/${taskId}`);
       console.log("task delete successfully");
       return taskId;
-
     } catch (error) {
       console.log("error ", error);
       throw Error(error.response.data.error);
@@ -187,9 +186,14 @@ const taskSlice = createSlice({
 
           .addCase(deleteTask.fulfilled, (state, action) => {
             state.loading = false;
-            state.tasks = state.tasks.filter((task) => task.id !== action.payload)
-            
+            state.tasks = state.tasks.filter(
+              (task) => task.id !== action.payload
+            );
           })
+          .addCase(fetchTasksById.fulfilled, (state, action) => {
+            state.loading = false;
+           state.taskDetails = action.payload;
+          });
     },
 });
 

@@ -6,12 +6,19 @@ import MenuItem from "@mui/material/MenuItem";
 import UserList from "../../TaskList/UserList";
 import SubmissionList from "../../TaskList/SubmissionList";
 import EditTaskForm from "../../TaskList/EditTaskCard";
+import { useDispatch } from "react-redux";
+import { deleteTask } from "../../../ReduxToolkit/TaskSlice";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const role="ROLE_ADMIN";
 
 function TaskCard({item}){
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openMenu = Boolean(anchorEl);
+
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -43,8 +50,20 @@ function TaskCard({item}){
 
   const [openTaskEditForm, setOpenTaskEditForm] = useState(false);
 
+  // const handleRemoveTaskIdParams = ()=>{
+  //   const updatedParams = new URLSearchParams(location.search);
+  //   updatedParams.delete("taskId");
+  //   const queryString = updatedParams.toString();
+  //   const updatedPath = queryString
+  //     ? `${location.pathname}?${queryString}`
+  //     : location.pathname;
+  //   navigate(updatedPath);
+  // }
   const handleOpenUpdateTaskModel = () => {
+    const updatedParams = new URLSearchParams(location.search)
     setOpenTaskEditForm(true);
+    updatedParams.set("taskId", item.id);
+    navigate(`${location.pathname}?${updatedParams.toString()}`);
     handleMenuClose();
   };
 
@@ -53,6 +72,7 @@ function TaskCard({item}){
   };
 
   const handleDeleteTask = () => {
+    dispatch(deleteTask({ taskId: item.id })); 
     handleMenuClose();
   };
 
@@ -128,6 +148,7 @@ function TaskCard({item}){
       )}
       {openTaskEditForm && (
         <EditTaskForm
+          item={item}
           open={openTaskEditForm}
           handleClose={handleCloseUpdateTaskModel}
         />
