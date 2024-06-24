@@ -4,8 +4,11 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import { useDispatch } from "react-redux";
+import { register } from "../../ReduxToolkit/AuthSlice";
 
 const Signup = ({ togglePanel }) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: "",
     role:"",
@@ -20,6 +23,7 @@ const Signup = ({ togglePanel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(register(formData));
     console.log("login form", formData);
   };
   return (

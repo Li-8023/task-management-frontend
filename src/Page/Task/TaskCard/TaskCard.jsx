@@ -6,9 +6,10 @@ import MenuItem from "@mui/material/MenuItem";
 import UserList from "../../TaskList/UserList";
 import SubmissionList from "../../TaskList/SubmissionList";
 import EditTaskForm from "../../TaskList/EditTaskCard";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteTask } from "../../../ReduxToolkit/TaskSlice";
 import { useLocation, useNavigate } from "react-router-dom";
+import SubmissionFormModel from "../SubmissionFormModel";
 
 const role="ROLE_ADMIN";
 
@@ -18,6 +19,8 @@ function TaskCard({item}){
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openMenu = Boolean(anchorEl);
+
+  const {auth} = useSelector(store=>store);
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -29,6 +32,9 @@ function TaskCard({item}){
   const [openUserList, setOpenUserList] = useState(false);
 
   const handleOpenUserList = () =>{
+    const updatedParams = new URLSearchParams(location.search);
+    updatedParams.set("taskId", item.id);
+    navigate(`${location.pathname}?${updatedParams.toString()}`);
     setOpenUserList(true);
     handleMenuClose();
   };
@@ -40,6 +46,9 @@ function TaskCard({item}){
   const [openSubmissionList, setOpenSubmissionList] = useState(false);
 
   const handleOpenSubmissionList = () => {
+    const updatedParams = new URLSearchParams(location.search);
+    updatedParams.set("taskId", item.id);
+    navigate(`${location.pathname}?${updatedParams.toString()}`);
     setOpenSubmissionList(true);
     handleMenuClose();
   };
@@ -47,6 +56,19 @@ function TaskCard({item}){
   const handleCloseSubmissionList = () => {
     setOpenSubmissionList(false);
   };
+
+  const [openSubmissionFormModel, setOpenSubmissionFormModel] = useState(false);
+  const handleOpenSubmitFormModel = () => {
+    const updatedParams = new URLSearchParams(location.search);
+    updatedParams.set("taskId", item.id);
+    navigate(`${location.pathname}?${updatedParams.toString()}`);
+    setOpenSubmissionFormModel(true);
+    handleMenuClose();
+
+  };
+  const handleCloseSubmitFormModel = () =>{
+    setOpenSubmissionFormModel(false);
+  }
 
   const [openTaskEditForm, setOpenTaskEditForm] = useState(false);
 
@@ -76,6 +98,8 @@ function TaskCard({item}){
     handleMenuClose();
   };
 
+  
+
   return (
     <div>
       <div className="card lg:flex justify-between">
@@ -90,15 +114,11 @@ function TaskCard({item}){
           <div className="space-y-5">
             <div className="space-y-2">
               <h1 className="font-bold text-lg">{item.title}</h1>
-              <p className="text-gray-500 text-sm">
-                {item.description}
-              </p>
+              <p className="text-gray-500 text-sm">{item.description}</p>
             </div>
             <div className="flex flex-wrap gap-2 items-center text-sm">
               {item.tags.map((item) => (
-                <span className="py-1 px-5 rounded-full techStack">
-                  {item}
-                </span>
+                <span className="py-1 px-5 rounded-full techStack">{item}</span>
               ))}
             </div>
           </div>
@@ -122,7 +142,7 @@ function TaskCard({item}){
               "aria-labelledby": "basic-button",
             }}
           >
-            {role === "ROLE_ADMIN" ? (
+            {auth.user?.role === "ROLE_ADMIN" ? (
               <>
                 <MenuItem onClick={handleOpenUserList}>Assigned User</MenuItem>
                 <MenuItem onClick={handleOpenSubmissionList}>
@@ -132,7 +152,9 @@ function TaskCard({item}){
                 <MenuItem onClick={handleDeleteTask}>Delete</MenuItem>
               </>
             ) : (
-              <></>
+              <>
+                <MenuItem onClick={handleOpenSubmitFormModel}>Submit</MenuItem>
+              </>
             )}
           </Menu>
         </div>
@@ -152,6 +174,9 @@ function TaskCard({item}){
           open={openTaskEditForm}
           handleClose={handleCloseUpdateTaskModel}
         />
+      )}
+      {openSubmissionFormModel && (
+        <SubmissionFormModel open={openSubmissionFormModel} handleClose={handleCloseSubmitFormModel}/>
       )}
     </div>
   );
