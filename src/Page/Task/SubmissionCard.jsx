@@ -54,9 +54,9 @@ const SubmissionCard = ({item}) => {
           <Button
             size="small"
             variant="outlined"
-            color={item.status === "ACCEPT" ? "success" : "error"}
+            color={item.status === "ACCEPTED" ? "success" : "error"}
           >
-            {item.status === "ACCEPT" ? "Accept" : "Reject"}
+            {item.status === "ACCEPTED" ? "Accept" : "Reject"}
           </Button>
         )}
       </div>

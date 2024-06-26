@@ -4,7 +4,7 @@ import "./Sidebar.css";
 import CreateNewTaskForm from "../Task/CreateTask";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../ReduxToolkit/AuthSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const menu = [
@@ -16,12 +16,14 @@ const menu = [
   { name: "Notification", value: "NOTIFICATION", role: ["ROLE_CUSTOMER"] },
 ];
 
-const role = "ROLE_ADMIN";
+
 
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {auth} = useSelector(store=>store);
+  const role = auth.user?.role;
 
   const [openCreateTaskForm, setOpenCreateTaskForm] = useState(false);
   const handleCloseCreateTaskForm = () => {
