@@ -27,7 +27,7 @@ To run this project locally, follow these steps:
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/task-management-frontend.git
+    git clone https://github.com/Li-8023/task-management-frontend.git
     ```
 2. **Navigate to the project directory:**
     ```bash
