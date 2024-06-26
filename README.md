@@ -16,6 +16,7 @@ The Task Management Front End is a responsive and dynamic user interface for man
 - **Tailwind CSS:** A utility-first CSS framework for rapid UI development.
 - **HTML & JavaScript:** The core technologies for web development.
 - **MUI (Material-UI):** A popular React UI framework.
+
 ## Showcase Video
 Watch the project showcase video on YouTube to see the Task Management Front End in action:
 
