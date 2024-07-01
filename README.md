@@ -7,7 +7,7 @@ The Task Management Front End is a responsive and dynamic user interface for man
 - **Dynamic Content:** Utilize React.js for building interactive user interfaces.
 - **State Management:** Implement Redux Toolkit for efficient state management.
 - **Styling:** Use Tailwind CSS for modern and responsive design.
-- **Components:** Integrate Material-UI (MUI) for pre-built and customizable components.
+- **Components:** Integrate Material-UI for pre-built and customizable components.
 - **Real-time Updates:** Enable real-time task notifications using WebSocket.
 
 ## Framework and Technology
