@@ -25,7 +25,6 @@ Watch the project showcase video on YouTube to see the Task Management Front End
 ## Installation
 
 To run this project locally, follow these steps:
-
 1. **Clone the repository:**
     ```bash
     git clone https://github.com/Li-8023/task-management-frontend.git
